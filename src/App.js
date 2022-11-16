@@ -1,50 +1,39 @@
-import React, { Component } from "react"
-import logo from "./logo.svg"
-import "./App.css"
+import React from "react";
+import Navbar from "./components/Navbar";
+import Banner from "./components/Banner";
+import Movies from "./components/Movies";
 
-class LambdaDemo extends Component {
-  constructor(props) {
-    super(props)
-    this.state = { loading: false, msg: null }
-  }
+import Favourites from "./components/Favourites";
+import { BrowserRouter,Routes,Route } from "react-router-dom";
+import './App.css';
 
-  handleClick = api => e => {
-    e.preventDefault()
+function App() {
+  return (
+<>
+<BrowserRouter>
+  <Navbar></Navbar>
+  <Routes>
+    
+    <Route path="/" element={<>
+      
+      <Banner/>
+      <Movies/>
+      
+    </>}></Route>
 
-    this.setState({ loading: true })
-    fetch("/.netlify/functions/" + api)
-      .then(response => response.json())
-      .then(json => this.setState({ loading: false, msg: json.msg }))
-  }
+    <Route path="/favourites" element={<><Favourites/>
+    
+    </>
+    }/>
 
-  render() {
-    const { loading, msg } = this.state
-
-    return (
-      <p>
-        <button onClick={this.handleClick("hello")}>{loading ? "Loading..." : "Call Lambda"}</button>
-        <button onClick={this.handleClick("async-dadjoke")}>{loading ? "Loading..." : "Call Async Lambda"}</button>
-        <br />
-        <span>{msg}</span>
-      </p>
-    )
-  }
+  </Routes>
+</BrowserRouter>
+{/* <Navbar></Navbar>
+<Banner/>
+<Movies/>
+<Pagination/> */}
+</>
+  );
 }
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <LambdaDemo />
-        </header>
-      </div>
-    )
-  }
-}
-
-export default App
+export default App;
